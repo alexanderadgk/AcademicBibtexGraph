@@ -1,0 +1,10 @@
+name: bibGraphEnv
+channels:
+- defaults
+- alubbock
+dependencies:         
+- graphviz=2.41
+- pygraphviz=1.5
+- networkx=2.4
+- pip:                
+  - bibtexparser==1.2.0

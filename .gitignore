@@ -1,2 +1,8 @@
-*.graphml
-*.pdf
+#Exclude all
+*
+#Include relevant
+!*/
+!*.py
+!*.yml
+!.gitignore
+!*.md
