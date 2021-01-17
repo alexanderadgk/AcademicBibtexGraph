@@ -2,7 +2,7 @@
 
 <img src="https://github.com/alexanderadgk/AcademicBibtexGraph/blob/main/examples/readme_examples.png" alt="Picture of Example" width="685" height="730">
 
-This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register here ([Link](https://msr-apis.portal.azure-api.net/products) (17.01.2021)) for a key.
+This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register [here](https://msr-apis.portal.azure-api.net/products) for a key.
 
 ## Installation
 
@@ -51,4 +51,5 @@ optional arguments:
   --brightedges    Hide the edges
   --omitforward    Do not plot the forward search
   --omitbackward   Do not plot the backward search
+  --size SIZE      Size of the figure e.g. --size=180,120
 ````
