@@ -1,8 +1,16 @@
 # AcademicBibtexGraph
 
-![Illustration](https://github.com/alexanderadgk/AcademicBibtexGraph/blob/main/examples/examples_readme.svg)
+This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register [here](https://msr-apis.portal.azure-api.net/products) for a key. Ir could be used to check how references found during literature search are related or to get new references via forward or backward search.
 
-This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register [here](https://msr-apis.portal.azure-api.net/products) for a key.
+***Example 1: Illustration of internal dependencies***  
+*Created with GraphViz (used by visualizeGraph.py), layout hierarchical*
+![Illustration1](https://github.com/alexanderadgk/AcademicBibtexGraph/blob/main/examples/illustration_big_40.svg)  
+
+
+***Example 2:Illustration of forward and backwards search of 4 related papers***  
+*Created with Gephi from the produced graphml-Flle*
+![Illustration2](https://github.com/alexanderadgk/AcademicBibtexGraph/blob/main/examples/illustration_small_4.svg)  
+
 
 ## Installation
 
