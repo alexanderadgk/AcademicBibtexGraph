@@ -10,7 +10,7 @@ This code uses the Microsoft Academics Research API to fetch references and cita
 
 
 ***Example 2:Illustration of forward and backwards search of 4 related papers***  
-*Created with Gephi from the produced graphml-Flle*
+*Created with Gephi from the produced graphml-Flle, colors label the source (orange: input,blue: backward search,green: forward search)*
 ![Illustration2](https://github.com/alexanderadgk/AcademicBibtexGraph/blob/main/examples/illustration_small_4.svg)  
 
 
