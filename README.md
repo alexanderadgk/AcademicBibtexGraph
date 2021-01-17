@@ -1,6 +1,6 @@
 # AcademicBibtexGraph
 
-<img src="https://github.com/alexanderadgk/AcademicBibtexGraph/blob/main/examples/readme_examples.png" alt="Picture of Example" width="685" height="730">
+![](https://github.com/alexanderadgk/AcademicBibtexGraph/blob/main/examples/readme_examples.png)
 
 This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register [here](https://msr-apis.portal.azure-api.net/products) for a key.
 
