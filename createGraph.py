@@ -26,7 +26,6 @@ parser.add_argument('--backward',help='Perform backwards search',action='store_t
 parser.add_argument('--output',help='You can specify the output file name')
 parser.add_argument('--silent',help='Execute without asking questions...',action='store_true')
 args = parser.parse_args()
-print(args)
 
 #Make sure the user understands what he does
 if not args.silent:
@@ -41,6 +40,7 @@ if not args.silent:
 #Now load the bibtex-File and create a list of names
 atexit.register(magAPI.showNumberOfQueries)
 myPaperNames = getBibtexTitles(args.file)
+warningLimit = 500 #Ask again if you execute that many queries on refs
 
 '''
 ================================================
@@ -95,31 +95,33 @@ if args.backward:
     backwardReferencesUnique = list(set(backwardReferences))
     print("Removed " + str(len(backwardReferences)-len(backwardReferencesUnique)) \
           + " duplicate References")
-    if len(backwardReferencesUnique) > 1000 and not args.silent:
-        print("WARNING! This will execute " + str(len(backwardReferencesUnique)) + " queries.")
+    continueFlag = True
+    if len(backwardReferencesUnique) > warningLimit and not args.silent:
+        print("WARNING! Bacward search will execute " + str(len(backwardReferencesUnique)) + " queries.")
         answer = input('Do You Want To Continue? Y/N: ')
         if answer == 'Y':
             print("Continuing execution")
         else:
-            print("Exiting...")
-            exit    
+            print("Skipping Backward search...")
+            continueFlag = False    
     
-    for reference in backwardReferencesUnique:
-        #This call needs to be adapted to get all the papers RIds also
-        entity = magAPI.getEntityById(reference,args.key);
-        if entity:
-            #This should alway be the case
-            backwardPapers[reference] = entity['DN'];
-            try:
-                RIds = entity['RId']
-            except:
-                RIds = []
-            for RId in RIds:
-                secondBackwardEdges.append((RId,int(reference)))
-        else:
-            backwardPapers[reference] = "NOT FOUND OR MULTIPLE";        
-        #Microsofts Trial API does not allow more than one access per second
-        time.sleep(1)
+    if continueFlag:
+        for reference in backwardReferencesUnique:
+            #This call needs to be adapted to get all the papers RIds also
+            entity = magAPI.getEntityById(reference,args.key);
+            if entity:
+                #This should alway be the case
+                backwardPapers[reference] = entity['DN'];
+                try:
+                    RIds = entity['RId']
+                except:
+                    RIds = []
+                for RId in RIds:
+                    secondBackwardEdges.append((RId,int(reference)))
+            else:
+                backwardPapers[reference] = "NOT FOUND OR MULTIPLE";        
+            #Microsofts Trial API does not allow more than one access per second
+            time.sleep(1)
 
 '''
 ================================================
@@ -136,29 +138,31 @@ if args.forward:
     for Id in myPapers.keys():
         citationIds = magAPI.getCitationsById(Id,args.key)
         for citationId in citationIds:
-            forwardEdges.append((citationId,int(Id)))
-    forwardReferences = [str(Id) for (Id,x) in forwardEdges]
+            forwardEdges.append((int(Id),citationId))
+    forwardReferences = [str(Id) for (x,Id) in forwardEdges]
     forwardReferencesUnique = list(set(forwardReferences))
-    if len(forwardReferencesUnique) > 1000 and not args.silent:
-        print("WARNING! This will execute " + str(len(backwardReferencesUnique)) + " queries.")
+    continueFlag = True
+    if len(forwardReferencesUnique) > warningLimit and not args.silent:
+        print("WARNING! Forward search will execute " + str(len(backwardReferencesUnique)) + " queries.")
         answer = input('Do You Want To Continue? Y/N: ')
         if answer == 'Y':
             print("Continuing execution")
         else:
-            print("Exiting...")
-            exit  
-    for reference in forwardReferencesUnique:
-        entity = magAPI.getEntityById(reference, args.key)
-        if entity:
-            forwardPapers[reference] = entity['DN']
-            try:
-                RIds = entity['RId']
-            except:
-                RIds = []
-            for RId in RIds:
-                forwardBackwardEdges.append((RId,int(reference)))
-        else:
-            forwardPapers[reference] = "NOT FOUND OR MULTIPLE"
+            print("Skipping Forward search...")
+            continueFlag = False
+    if continueFlag:
+        for reference in forwardReferencesUnique:
+            entity = magAPI.getEntityById(reference, args.key)
+            if entity:
+                forwardPapers[reference] = entity['DN']
+                try:
+                    RIds = entity['RId']
+                except:
+                    RIds = []
+                for RId in RIds:
+                    forwardBackwardEdges.append((RId,int(reference)))
+            else:
+                forwardPapers[reference] = "NOT FOUND OR MULTIPLE"
 
 '''
 ================================================
@@ -166,7 +170,7 @@ if args.forward:
 ================================================
 '''
 
-#Collect Edges and remov the ones not pointing to included papers
+#Collect Edges and remove the ones not pointing to included papers
 allEdgesTemp = firstBackwardEdges + secondBackwardEdges + forwardEdges + forwardBackwardEdges
 allNodes = dict(list(myPapers.items())+list(backwardPapers.items())+list(forwardPapers.items()))
 allEdges = []

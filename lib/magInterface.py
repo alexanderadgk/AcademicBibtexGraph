@@ -76,7 +76,11 @@ class magAPI():
         forward_query = "https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?&expr=RId="\
                         + Id + \
                         "&count=1000&attributes=Id&subscription-key="
-        entities = magAPI.getContent(forward_query,key)
+        results = magAPI.getContent(forward_query,key)
+        try:
+            entities = results['entities']
+        except:
+            entities = []
         Ids = []
         try:
             Ids = [entity['Id'] for entity in entities]
