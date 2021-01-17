@@ -1,8 +1,4 @@
-#Exclude all
-*
-#Include relevant
-!*/
-!*.py
-!*.yml
-!.gitignore
-!*.md
+*.bib
+*.bibtex
+*.sav
+*.pyc

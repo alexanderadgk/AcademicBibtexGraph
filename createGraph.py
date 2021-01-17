@@ -10,7 +10,7 @@ import argparse
 import atexit
 from lib.magInterface import magAPI
 from lib.utils import getBibtexTitles
-
+import os
 '''
 ================================================
 1. Parse command line arguments and get bibtex file
@@ -206,7 +206,7 @@ G.add_edges_from(allEdges)
 if args.output:
     outfile = args.output
 else:
-    outfile = "Graph_citations_"+time.strftime('%Y%m%d%H%M%S')+".graphml"
+    outfile = "output" + os.sep + "Graph_citations_"+time.strftime('%Y%m%d%H%M%S')+".graphml"
 nx.write_graphml(G,outfile)
 #Last but not least show all queries
 magAPI.showNumberOfQueries()

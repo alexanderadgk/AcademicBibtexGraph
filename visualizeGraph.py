@@ -11,6 +11,7 @@ import pygraphviz
 from networkx.drawing.nx_agraph import graphviz_layout
 from textwrap import fill as wrapText
 import argparse
+import os
 
 '''
 ================================================
@@ -88,5 +89,5 @@ nx.draw_networkx_labels(G,pos,labels = labels, font_size = 3.5)
 if args.output:
     outfile = args.output
 else:
-    outfile = "Visualization_"+time.strftime('%Y%m%d%H%M%S')+".pdf"
+    outfile = "output" + os.sep + "Plot_"+time.strftime('%Y%m%d%H%M%S')+".pdf"
 plt.savefig(outfile)
