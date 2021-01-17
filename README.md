@@ -16,8 +16,8 @@ Of course you can also install the needed packages to your root environment if y
 
 ## Basic Usage
 ```
-> python createGraph --file=inputLibary.bib --key=<YOURKEY> --output=output\firstGraph.graphml
-> python visualizeGraph --file=output\firstGraph.graphml --output=output\firstPlot.pdf
+python createGraph --file=inputLibary.bib --key=<YOURKEY> --output=output\firstGraph.graphml
+python visualizeGraph --file=output\firstGraph.graphml --output=output\firstPlot.pdf
 ```
 The first command creates a graphml file, while the second one makes a visualization as PDF. You can also visualize the graphml-File with a tool like Gephi.
 
