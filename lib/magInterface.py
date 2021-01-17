@@ -41,16 +41,36 @@ class magAPI():
         if len(entities) == 1:
             #This should alway be the case
             return entities[0]
-        elif len(entities == 0):
+        elif len(entities) == 0:
             print("------------------")
             print("No results found for: " + name)
             return []
         else:
+            allNamesEqual = True
+            numReferences = []
+            basename = entities[0]['Ti']
+            for entity in entities:
+                try:
+                    numReferences.append(len(entity['RId']))
+                except:
+                    numReferences.append(0)
+                if not basename == entity['Ti']:
+                     allNamesEqual == False
+            
             print("------------------")
             print("Multiple results found for: " + name)
             for entity in entities:
                 print("Found: " + entity['Ti'])
-            return []
+            
+            if allNamesEqual:
+                print("All names are equal, returning result with highest reference count")
+                returnEntity = numReferences.index(max(numReferences))
+                return entities[returnEntity]
+            else:
+                print("Results differ, returning empty entity")
+                return []
+        
+    
         
     
     @staticmethod

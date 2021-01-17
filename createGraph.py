@@ -30,17 +30,21 @@ args = parser.parse_args()
 #Make sure the user understands what he does
 if not args.silent:
     print("Executing this script can significantly/completely drain the free 10000 Transactions you have each month")
-    answer = input('Do You Want To Continue? Y/N: ')
-    if answer == 'Y':
-        print("Continuing execution")
-    else:
-        print("Exiting...")
-        exit
+    while True:
+        answer = input('Do You Want To Continue? Y/N: ')
+        if answer == 'Y':
+            print("Continuing execution")
+            break
+        elif answer == 'N':
+            print("Exiting...")
+            exit
+        else:
+            print("Please answer Y or N")
 
 #Now load the bibtex-File and create a list of names
 atexit.register(magAPI.showNumberOfQueries)
 myPaperNames = getBibtexTitles(args.file)
-warningLimit = 500 #Ask again if you execute that many queries on refs
+warningLimit = 100 #Ask again if you execute that many queries on refs
 
 '''
 ================================================
@@ -71,12 +75,16 @@ for name in myPaperNames:
 
 if not allFound and not args.silent and (args.backward or args.forward):
     print("WARNING! Not all papers where found by name.")
-    answer = input('Do You Want To Continue? Y/N: ')
-    if answer == 'Y':
-        print("Continuing execution")
-    else:
-        print("Exiting...")
-        exit
+    while True:
+        answer = input('Do You Want To Continue? Y/N: ')
+        if answer == 'Y':
+            print("Continuing execution")
+            break
+        elif answer == 'N':
+            print("Exiting...")
+            exit
+        else:
+            print("Please answer Y or N")
 
 
 '''
@@ -97,13 +105,17 @@ if args.backward:
           + " duplicate References")
     continueFlag = True
     if len(backwardReferencesUnique) > warningLimit and not args.silent:
-        print("WARNING! Bacward search will execute " + str(len(backwardReferencesUnique)) + " queries.")
-        answer = input('Do You Want To Continue? Y/N: ')
-        if answer == 'Y':
-            print("Continuing execution")
-        else:
-            print("Skipping Backward search...")
-            continueFlag = False    
+        print("WARNING! Backward search will execute " + str(len(backwardReferencesUnique)) + " queries.")
+        while True:
+            answer = input('Do You Want To Continue? Y/N: ')
+            if answer == 'Y':
+                print("Continuing execution")
+                break
+            elif answer == 'N':
+                print("Skipping backward search...")
+                continueFlag = False
+            else:
+                print("Please answer Y or N")  
     
     if continueFlag:
         for reference in backwardReferencesUnique:
@@ -144,12 +156,17 @@ if args.forward:
     continueFlag = True
     if len(forwardReferencesUnique) > warningLimit and not args.silent:
         print("WARNING! Forward search will execute " + str(len(backwardReferencesUnique)) + " queries.")
-        answer = input('Do You Want To Continue? Y/N: ')
-        if answer == 'Y':
-            print("Continuing execution")
-        else:
-            print("Skipping Forward search...")
-            continueFlag = False
+        while True:
+            answer = input('Do You Want To Continue? Y/N: ')
+            if answer == 'Y':
+                print("Continuing execution")
+                break
+            elif answer == 'N':
+                print("Skipping Forward search...")
+                continueFlag = False
+            else:
+                print("Please answer Y or N")
+                
     if continueFlag:
         for reference in forwardReferencesUnique:
             entity = magAPI.getEntityById(reference, args.key)
