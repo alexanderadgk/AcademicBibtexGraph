@@ -9,7 +9,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import pygraphviz
 from networkx.drawing.nx_agraph import graphviz_layout
-from lib.utils import insert_newlines
+from lib.utils import insertNewlines
 
 
 filename = 'Graph_citations_20210116155738.graphml';
@@ -19,7 +19,7 @@ print("Creating dot layout")
 pos = graphviz_layout(G, prog = "dot",args="-Gmindist=200")
 
 #Prepare labels and colors
-labels=dict((n,insert_newlines(d['label'],14)) for n,d in G.nodes(data=True))
+labels=dict((n,insertNewlines(d['label'],14)) for n,d in G.nodes(data=True))
 sources=dict((n,d['source']) for n,d in G.nodes(data=True))
 colors=[]
 for key,value in sources.items():

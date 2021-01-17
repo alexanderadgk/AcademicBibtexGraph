@@ -16,7 +16,5 @@ def getBibtexTitles(filename):
     titles = [re.sub(r"[^a-zA-Z0-9]+", ' ',x['title']) for x in bibresult.entries];
     return titles
 
-def insert_newlines(string, every=64):
-    #Make the first 13-lettes bold
-    #string = r"$\bf{" + string[:13] + "}$" + string[13:]
+def insertNewlines(string, every=64):
     return '\n'.join(string[i:i+every] for i in range(0, len(string), every))

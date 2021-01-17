@@ -27,43 +27,59 @@ class magAPI():
         return content
      
     @staticmethod
-    def getIdsByName(name,key):
+    def getEntityByName(name,key):
         name_query = "https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?expr=Ti='" \
-                     + quote(name_clean.lower()) + \
-                     "'&model=latest&count=10&offset=0&attributes=Id,Ti&subscription-key="
+                     + quote(name.lower()) + \
+                     "'&model=latest&count=10&offset=0&attributes=Id,Ti,DN,RId&subscription-key="
         results = magAPI.getContent(name_query,key)   
-        namesIds = []
-        for result in results['entities']:
-            namesIds.append({'Id':result['Id'],'name':result['Ti']})
-        return namesIds
+        #Check if anything came back
+        try:
+            entities = results['entities']
+        except:
+            entities = []
+        
+        if len(entities) == 1:
+            #This should alway be the case
+            return entities[0]
+        elif len(entities == 0):
+            print("------------------")
+            print("No results found for: " + name)
+            return []
+        else:
+            print("------------------")
+            print("Multiple results found for: " + name)
+            for entity in entities:
+                print("Found: " + entity['Ti'])
+            return []
+        
     
     @staticmethod
-    def getNamesById(Id,key):
+    def getEntityById(Id,key):
         id_query = "https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?&expr=Id=" \
                          + Id + \
-                   "&count=10&attributes=Id,Ti&subscription-key="
+                   "&count=10&attributes=Id,Ti,DN,RId&subscription-key="
         results = magAPI.getContent(id_query,key)
-        namesIds = []
-        for result in results['entities']:
-            namesIds.append({'Id':result['Id'],'name':result['Ti']})
-        return namesIds
+        try:
+            entities = results['entities']
+        except:
+            entities = []
         
-    @staticmethod    
-    def getReferencesById(Id,key):
-        backward_query = "https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?&expr=Id=" \
-                         + Id + \
-                         "&count=1000&attributes=RId&subscription-key="
-        referenceResults = magAPI.getContent(backward_query,key)
-        if referenceResults:
-            if len(referenceResults['entities']) != 1:
-                raise ValueError("Unexpected number of results from reference search")
-            else:
-                return referenceResults['entities'][0]['RId']
+        if len(entities) == 1:
+            return entities[0]
         else:
-            raise ValueError("Unexpected number of results from reference search")
-    
+            return []
+        
+  
     @staticmethod   
     def getCitationsById(Id,key):
         #This gets all papers that cite this paer
-        #forward_query = "https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?&expr=RId=2807461834&count=1000&attributes=Ti,RId&subscription-key="
-        raise NotImplementedError
+        forward_query = "https://api.labs.cognitive.microsoft.com/academic/v1.0/evaluate?&expr=RId="\
+                        + Id + \
+                        "&count=1000&attributes=Id&subscription-key="
+        entities = magAPI.getContent(forward_query,key)
+        Ids = []
+        try:
+            Ids = [entity['Id'] for entity in entities]
+        except:
+            pass
+        return Ids
