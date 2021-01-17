@@ -1,6 +1,6 @@
 # AcademicBibtexGraph
 
-This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register [here](https://msr-apis.portal.azure-api.net/products) for a key. Ir could be used to check how references found during literature search are related or to get new references via forward or backward search.
+This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register [here](https://msr-apis.portal.azure-api.net/products) for a key. It could be used to check how references found during literature search are related or to get new references via forward or backward search.
 
 **Warning: Currently Microsoft only grants about 10000 free transactions over the API per month. Especially using forward or backward search can consume this very quickly.**
 
