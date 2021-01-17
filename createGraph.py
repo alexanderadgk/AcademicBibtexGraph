@@ -151,11 +151,15 @@ if args.forward:
         citationIds = magAPI.getCitationsById(Id,args.key)
         for citationId in citationIds:
             forwardEdges.append((int(Id),citationId))
+        time.sleep(1)
+
     forwardReferences = [str(Id) for (x,Id) in forwardEdges]
     forwardReferencesUnique = list(set(forwardReferences))
+    print("Removed " + str(len(forwardReferences)-len(forwardReferencesUnique)) \
+          + " duplicate References")
     continueFlag = True
     if len(forwardReferencesUnique) > warningLimit and not args.silent:
-        print("WARNING! Forward search will execute " + str(len(backwardReferencesUnique)) + " queries.")
+        print("WARNING! Forward search will execute " + str(len(forwardReferencesUnique)) + " queries.")
         while True:
             answer = input('Do You Want To Continue? Y/N: ')
             if answer == 'Y':
@@ -180,6 +184,8 @@ if args.forward:
                     forwardBackwardEdges.append((RId,int(reference)))
             else:
                 forwardPapers[reference] = "NOT FOUND OR MULTIPLE"
+            time.sleep(1)
+
 
 '''
 ================================================
@@ -187,8 +193,12 @@ if args.forward:
 ================================================
 '''
 
+#Clean nodes
+forwardPapers = dict(set(forwardPapers.items())-set(myPapers.items()))
+backwardPapers = dict(set(backwardPapers.items())-set(myPapers.items())-set(forwardPapers.items()))
+
 #Collect Edges and remove the ones not pointing to included papers
-allEdgesTemp = firstBackwardEdges + secondBackwardEdges + forwardEdges + forwardBackwardEdges
+allEdgesTemp = list(set(firstBackwardEdges + secondBackwardEdges + forwardEdges + forwardBackwardEdges))
 allNodes = dict(list(myPapers.items())+list(backwardPapers.items())+list(forwardPapers.items()))
 allEdges = []
 for edge in allEdgesTemp:
@@ -197,6 +207,7 @@ for edge in allEdgesTemp:
         allEdges.append(edge)
     except:
         pass   
+
 
 '''
 ================================================

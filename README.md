@@ -2,7 +2,7 @@
 
 > Picture
 
-This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name.
+This code uses the Microsoft Academics Research API to fetch references and citations based on a bibtex library and build a dependency graph. It solely tries to get the references by name. To use it you must register for a key [Link (17.01.2021)](https://msr-apis.portal.azure-api.net/products).
 
 ## Installation
 
@@ -15,6 +15,7 @@ dot -c
 Of course you can also install the needed packages to your root environment if you wish to do so.
 
 ## Basic Usage
+Put your libary in the folder with the python files.
 ```
 python createGraph --file=inputLibary.bib --key=<YOURKEY> --output=output\firstGraph.graphml
 python visualizeGraph --file=output\firstGraph.graphml --output=output\firstPlot.pdf

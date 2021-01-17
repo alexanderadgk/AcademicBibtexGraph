@@ -25,6 +25,7 @@ parser.add_argument('--output',help='You can specify the output file name')
 parser.add_argument('--brightedges',help='Hide the edges',action='store_true')
 parser.add_argument('--omitforward',help='Do not plot the forward search',action='store_true')
 parser.add_argument('--omitbackward',help='Do not plot the backward search',action='store_true')
+parser.add_argument('--size', type=str, help='Size of the figure e.g. --size=180,120')
 args = parser.parse_args()
 
 filename = args.file
@@ -83,7 +84,13 @@ pos = graphviz_layout(G, prog = "dot",args="-Gmindist=200")
 
 #At least 180 times 120 is needed for the complete plot if there are many nodes
 print("Drawing network.....")
-plt.figure(figsize=(180,120))
+if args.size:
+    stringtuple = args.size.split(',')
+    xsize = int(stringtuple[0])
+    ysize = int(stringtuple[1])
+    plt.figure(figsize=(xsize,ysize))
+else:    
+    plt.figure(figsize=(180,120))
 nx.draw_networkx(G, pos, arrows=True, with_labels = False,  node_shape = "s", node_color = colors, edge_color = color_edge ,node_size = 1200, arrowsize=2, connectionstyle='arc3, rad=0.1')
 nx.draw_networkx_labels(G,pos,labels = labels, font_size = 3.5)
 if args.output:
