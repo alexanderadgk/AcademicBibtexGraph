@@ -12,7 +12,7 @@ from networkx.drawing.nx_agraph import graphviz_layout
 from lib.utils import insertNewlines
 
 
-filename = 'Graph_citations_20210116155738.graphml';
+filename = 'Graph_citations_20210117103908.graphml';
 G = nx.read_graphml(filename)
 
 print("Creating dot layout")
